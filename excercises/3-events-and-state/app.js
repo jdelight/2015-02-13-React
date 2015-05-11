@@ -12,11 +12,19 @@ var DATA = [
 ];
 
 var App = React.createClass({
+    getInitialState() {
+        return {
+            tabIndex: 2
+        }
+    },
+    setTabIndex (tabIndex) {
+        this.setState({tabIndex});
+    },
 
   renderTabs () {
     return this.props.countries.map((country, index) => {
       return (
-        <div style={index === 0 ? styles.activeTab : styles.tab}>
+        <div key={index} onClick={this.setTabIndex.bind(null, index)} style={index === this.state.tabIndex ? styles.activeTab : styles.tab}>
           {country.name}
         </div>
       );
@@ -24,7 +32,7 @@ var App = React.createClass({
   },
 
   renderPanel () {
-    var country = this.props.countries[0];
+    var country = this.props.countries[this.state.tabIndex];
     return (
       <div>
         <p>{country.description}</p>
